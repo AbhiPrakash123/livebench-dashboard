@@ -7,10 +7,10 @@ import { ArrowUpRight, CircleAlert } from "lucide-react"
 import { Button } from "../ui/button"
 import Image from 'next/image'
 import './style.css'
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 const Logo = ({ logo_url }: any) => {
-    const [ imageSource, setImageSoruce] = useState(logo_url)
+    const [imageSource, setImageSoruce] = useState(logo_url)
     return (
         <Card className="absolute rounded-none w-40 h-14 flex top-[-38px] p-1 left-0  m-0 ">
             <Image
@@ -31,9 +31,12 @@ const Logo = ({ logo_url }: any) => {
 }
 export default function Lab(props: any) {
     const { data } = props
-    const [ imageSource, setImageSoruce] = useState(data.image_url)
+    const [imageSource, setImageSoruce] = useState(data.image_url)
+    const [host, setHost] = useState("")
+    useEffect(() => {
+        setHost(window.location.origin)
+    }, [])
 
-    const host = window.location.origin;
     return (
         <Card className=" flex-1 card relative overflow-hidden transition-filter duration-300 ease-in-out">
             <Card className="main-content h-[100%] p-1 ">
@@ -47,7 +50,7 @@ export default function Lab(props: any) {
                         objectFit='contain'
                         onError={() => {
                             setImageSoruce(`${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`)
-        
+
                         }}
                         alt="board setup image"
                         className="rounded-md object-cover h-auto w-full"
