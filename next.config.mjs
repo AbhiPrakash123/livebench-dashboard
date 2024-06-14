@@ -4,6 +4,7 @@ const nextConfig = {
     reactStrictMode: true,
     images: {
         domains: ['ik.imagekit.io','tenxer-sw-download.s3.amazonaws.com'],
+        unoptimized: true,
     },
 };
 

@@ -23,7 +23,6 @@ const Logo = ({ logo_url }: any) => {
                     setImageSoruce(`${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`)
 
                 }}
-                unoptimized={true}
                 className="rounded-md object-cover h-auto w-full"
             />
         </Card>
@@ -52,7 +51,6 @@ export default function Lab(props: any) {
                         }}
                         alt="board setup image"
                         className="rounded-md object-cover h-auto w-full"
-                        unoptimized={true}
                     />
                 </AspectRatio>
                 <Separator orientation="horizontal" className="my-2" />
