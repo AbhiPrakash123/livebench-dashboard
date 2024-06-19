@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 import { Card, CardContent, CardHeader, CardDescription } from "../ui/card"
 import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Label } from "../ui/label"
@@ -7,22 +7,25 @@ import { ArrowUpRight, CircleAlert } from "lucide-react"
 import { Button } from "../ui/button"
 import Image from 'next/image'
 import './style.css'
-import { useState, useEffect } from "react"
+import Link from 'next/link'
+import { getHostname } from "@/services/actions/utils"
+import ImageLoader from "./board-image"
 
 const Logo = ({ logo_url }: any) => {
-    const [imageSource, setImageSoruce] = useState(logo_url)
+    const imageSource = logo_url ? logo_url : `${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`
+
     return (
         <Card className="absolute rounded-none w-40 h-14 flex top-[-38px] p-1 left-0  m-0 ">
             <Image
                 src={imageSource}
-                layout='fill'
+                fill
                 sizes="(max-width: 300px) 100vw"
-                objectFit='contain'
+                style={{objectFit:"contain"}}
                 alt="company logo"
-                onError={() => {
-                    setImageSoruce(`${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`)
+                // onError={() => {
+                //     setImageSoruce(`${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`)
 
-                }}
+                // }}
                 className="rounded-md object-cover h-auto w-full"
             />
         </Card>
@@ -31,30 +34,27 @@ const Logo = ({ logo_url }: any) => {
 }
 export default function Lab(props: any) {
     const { data } = props
-    const [imageSource, setImageSoruce] = useState(data.image_url)
-    const [host, setHost] = useState("")
-    useEffect(() => {
-        setHost(window.location.origin)
-    }, [])
+    const imageSource = data.image_url ? data.image_url : `${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`
+    
+    const host = getHostname()
+
+    const _categories = data.category_ids?data.category_ids.map((item: any) => item.name).join(" , ") : ""
+    const categories = _categories.split(" ")
 
     return (
         <Card className=" flex-1 card relative overflow-hidden transition-filter duration-300 ease-in-out">
             <Card className="main-content h-[100%] p-1 ">
                 <AspectRatio ratio={4 / 3} className=" overflow-clip">
-                    <Image
+                <ImageLoader src={imageSource} alt="Image description"/>
+                    {/* <Image
                         src={imageSource}
-                        // width={500}
-                        // height={0}
                         layout='fill'
                         sizes="(max-width: 768px) 100vw"
                         objectFit='contain'
-                        onError={() => {
-                            setImageSoruce(`${process.env.NEXT_PUBLIC_BASE_PATH}/tenxerlabs_blue_logo.webp`)
-
-                        }}
+                        placeholder="blur"
                         alt="board setup image"
                         className="rounded-md object-cover h-auto w-full"
-                    />
+                    /> */}
                 </AspectRatio>
                 <Separator orientation="horizontal" className="my-2" />
 
@@ -62,8 +62,8 @@ export default function Lab(props: any) {
                     <Logo logo_url={data.logo_url} />
                     <div>
                         {
-                            data.category_ids?.map((item: any, i: number) =>
-                                <Label key={i} className="cursor-pointer opacity-50" >{item.name} </Label>)
+                            categories?.map((item: any, i: number) =>
+                                <Label key={i} className="cursor-pointer opacity-50" >{item} </Label>)
                         }
                     </div>
                     <div className="flex gap-2 ">
@@ -81,23 +81,48 @@ export default function Lab(props: any) {
             </Card>
             <Card className=" inset-0 opacity-100 hide-card absolute bottom-0 left-0 w-full bg-white bg-opacity-80 text-white p-4 transform translate-y-full transition-transform duration-500 ease-in-out">
             </Card>
-            <Card className="flex flex-col justify-between description h-[50%] absolute bottom-0 left-0 w-full p-4 transform translate-y-full transition-transform duration-1000 ease-in-out">
-                <Label className=" flex-grow leading-loose overflow-clip">{data.description}</Label>
-                <Label
-                    className=" h-6 text-primary flex justify-end gap-3 items-center cursor-pointer"
-                    onClick={() => window.open(`https://tenxerlabs.com/livebench/labs/bldc-motor-control-evaluation-board-eval-6edl7141-foc-3sh/`, "_blank")}
+            <Card className="flex flex-col justify-between description h-[50%] absolute bottom-0 left-0 w-full p-4 transform translate-y-full transition-transform duration-1000 ease-in-out  ">
+                <Label className=" flex-grow multiline-ellipsis leading-relaxed">{data.description}</Label>
+                <Link
+                    href={"https://tenxerlabs.com/livebench/labs/bldc-motor-control-evaluation-board-eval-6edl7141-foc-3sh/"}
+                    target="_blank"
+                    className="text-primary flex justify-end  items-center p-5"
                 >
-                    <CircleAlert />
-                    know more
-                </Label>
+                    <Label
+                        className="flex justify-end gap-3 items-center cursor-pointer"
+                    >
+                        <CircleAlert />
+                        Know more
+                    </Label>
+                </Link>
+
             </Card>
-            <Button
-                className="launch absolute rounded-full top-4 right-4 opacity-0 cursor-pointer transition-opacity duration-500 ease-in-out"
-                onClick={() => window.open(`${host}/app/${data.uniq_name}`, "_blank")}
-            >
-                Launch Lab
-                <ArrowUpRight />
-            </Button>
+            <div className="launch absolute flex justify-center w-full  h-10 top-10 left-0 opacity-0 transition-opacity duration-500 ease-in-out">
+                <div className="flex justify-between gap-3 h-full">
+                    <Button
+                        className=" rounded-full cursor-pointer h-full "
+                    >
+                        Launch Lab
+                        <ArrowUpRight />
+                    </Button>
+                    <Separator orientation="vertical" className=" bg-black" />
+                    <Link
+                        href={`${host}/app/${data.uniq_name}`}
+                        target="_blank"
+                    >
+                        <Button
+                            className=" rounded-full cursor-pointer h-full "
+                        >
+                            Launch Lab
+                            <ArrowUpRight />
+                        </Button>
+                    </Link>
+
+                </div>
+
+
+            </div>
+
         </Card>
     )
 }

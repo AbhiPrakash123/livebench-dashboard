@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator"
 
 export default function HeroPage() {
     return (
-        <div className=" h-[700px] relative mt-10 -z-10">
+        <div className=" h-[700px] relative mt-24 -z-10">
             <div className="flex flex-col gap-4 items-center">
                 <div>
                     <div className=" text-primary flex items-center gap-1 my-1">

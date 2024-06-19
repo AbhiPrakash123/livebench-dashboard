@@ -6,13 +6,7 @@ import { Separator } from "@/components/ui/separator"
 import { ListFilter, SearchCheck } from "lucide-react"
 import { useRef, useState } from "react"
 import { ArrowRight, ArrowLeft } from "lucide-react"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
+import FilterType from "./type"
 
 const CategoryBadge = ({ data, selected, onClick }: any) => {
     return (
@@ -74,27 +68,15 @@ const LabFilter = ({ selected, categories }: any) => {
             <div className="w-full flex flex-col items-center gap-2">
                 <div className=" text-primary flex items-center">
                     <SearchCheck />
-                    <Label >Discover the board</Label>
+                    <Label >Explore labs</Label>
                 </div>
-                <Label className="scroll-m-20 mb-10 text-4xl font-semibold tracking-tight lg:text-5xl text-center">
-                    Your choice in few seconds
+                <Label className="scroll-m-20 mb-10 text-3xl font-semibold tracking-tight lg:text-5xl text-center">
+                Discover the Ideal IC for Your Design with Ease
                 </Label>
             </div>
 
             <div className="flex justify-between items-center my-5 w-full">
-                <Select defaultValue="latest">
-                    <SelectTrigger className=" w-32 border-2 rounded-full px-8">
-                        <SelectValue placeholder="type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="latest">
-                            <Label>Latest</Label>
-                        </SelectItem>
-                        <SelectItem value="populer">
-                            <Label>Populer</Label>
-                        </SelectItem>
-                    </SelectContent>
-                </Select>
+                <FilterType />
                 {showLeftArrow && <div className="h-full flex items-center content-center mr-4">
                     <ArrowLeft className=" cursor-pointer" onClick={() => handleScroll('left')} />
                 </div>}

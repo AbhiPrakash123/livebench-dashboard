@@ -1,6 +1,7 @@
 import { TenxerLabsWhite, LinkedInWhite, TwitterWhite } from "@/components/logos"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import Link from 'next/link'
 
 export default function Footer() {
     return (
@@ -14,8 +15,13 @@ export default function Footer() {
                             with 24/7 Remote Labs
                         </Label>
                         <div className="flex gap-2">
-                            <LinkedInWhite />
-                            <TwitterWhite />
+                            <Link href="https://linkedin.com/company/tenxer-labs" target="_blank">
+                                <LinkedInWhite />
+                            </Link>
+                            <Link href="https://twitter.com/tenxerlabs" target="_blank">
+                                <TwitterWhite />
+
+                            </Link>
                         </div>
                     </div>
 
@@ -24,7 +30,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <Separator className="my-4 opacity-50"/>
+                <Separator className="my-4 opacity-50" />
             </div>
 
         </footer>

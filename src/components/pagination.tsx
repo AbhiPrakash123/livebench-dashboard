@@ -46,7 +46,6 @@ function getPagination(currentPage: number, totalPages: number) {
     return pages;
 }
 export function BoardPagination({ page, total_page }: any) {
-    console.table({ page, total_page })
     const searchParams = useSearchParams()
 
     useEffect(() => {
