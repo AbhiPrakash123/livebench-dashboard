@@ -9,7 +9,7 @@ export default function HeroPage() {
                 <div>
                     <div className=" text-primary flex items-center gap-1 my-1">
                         <Rocket />
-                        <Label >Turbocharge your IC Evaluation Journey</Label>
+                        <Label >Instant Evaluation from Your Browser</Label>
                     </div>
                     <Separator className=" bg-primary" />
 
@@ -26,7 +26,7 @@ export default function HeroPage() {
                 </h1>
                 <div className="flex flex-col items-center">
                     <Label className="scroll-m-20 text-secondary text-base text-center">
-                        Save the hustle of procurement and set-up of evaluation kits with our library of 3000+ labs
+                        Save the hustle of procurement and set-up of evaluation kits with our library of 80+ labs
                     </Label>
                     <Label className="scroll-m-20 text-secondary text-base text-center">
                         from the world’s leading brands
