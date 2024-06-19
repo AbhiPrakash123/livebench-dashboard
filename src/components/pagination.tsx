@@ -11,18 +11,52 @@ import {
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from 'next/navigation'
 
+function getPagination(currentPage: number, totalPages: number) {
+
+    let pages = [];
+    if (totalPages <= 9) {
+        for (let i = 1; i <= totalPages; i++) {
+            pages.push(i);
+        }
+    } else {
+        pages.push(1);
+        if (currentPage > 4) {
+            pages.push('...');
+        }
+
+        let start = Math.max(2, currentPage - 2);
+        let end = Math.min(totalPages - 1, currentPage + 2);
+
+        if (currentPage <= 4) {
+            end = 5;
+        }
+        if (currentPage >= totalPages - 3) {
+            start = totalPages - 4;
+        }
+
+        for (let i = start; i <= end; i++) {
+            pages.push(i);
+        }
+        if (currentPage < totalPages - 3) {
+            pages.push('...');
+        }
+        pages.push(totalPages);
+    }
+
+    return pages;
+}
 export function BoardPagination({ page, total_page }: any) {
     console.table({ page, total_page })
     const searchParams = useSearchParams()
 
     useEffect(() => {
         const params = new URLSearchParams(searchParams.toString())
-        if(page){
+        if (page) {
             params.set('page', page)
             window.history.pushState(null, '', `?${params.toString()}`)
         }
 
-    },[])
+    }, [])
 
     const changePage = (page: any) => {
         const params = new URLSearchParams(searchParams.toString())
@@ -44,31 +78,18 @@ export function BoardPagination({ page, total_page }: any) {
         changePage(activePage + 1)
     }
 
-    const pages = []
-    if (total_page > 9) {
-        for (let i = activePage; i < activePage + 3; i++) {
-            pages.push(
-                <PaginationItem key={i} className=" cursor-pointer">
-                    <PaginationLink onClick={() => changePage(i)} isActive={activePage === i ? true : false}>{i}</PaginationLink>
-                </PaginationItem>
-            )
-        }
-        pages.push(<PaginationItem key={4567892}>
-            <PaginationEllipsis />
-        </PaginationItem>)
-        pages.push(<PaginationItem key={74867438} className=" cursor-pointer">
-            <PaginationLink onClick={() => changePage(end)} isActive={end === page ? true : false}>{end}</PaginationLink>
-        </PaginationItem>)
-    } else {
-        for (let i = 1; i <= total_page; i++) {
-            pages.push(
-                <PaginationItem key={i} className=" cursor-pointer">
-                    <PaginationLink onClick={() => changePage(i)} isActive={activePage === i ? true : false}>{i}</PaginationLink>
-                </PaginationItem>
-            )
-        }
-    }
+    const _pages = getPagination(activePage, total_page)
 
+    const pages = _pages.map((item, index) => {
+        return item === '...' ?
+            <PaginationItem key={index}>
+                <PaginationEllipsis />
+            </PaginationItem>
+            :
+            <PaginationItem key={index} className=" cursor-pointer">
+                <PaginationLink onClick={() => changePage(item)} isActive={activePage === item ? true : false}>{item}</PaginationLink>
+            </PaginationItem>
+    })
 
     return (
         <Pagination className=" my-14">
