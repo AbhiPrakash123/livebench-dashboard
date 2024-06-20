@@ -6,11 +6,17 @@ import { Separator } from "@/components/ui/separator"
 import { ListFilter, SearchCheck } from "lucide-react"
 import { useRef, useState } from "react"
 import { ArrowRight, ArrowLeft } from "lucide-react"
-import FilterType from "./type"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 const CategoryBadge = ({ data, selected, onClick }: any) => {
     return (
-        <Card onClick={onClick} className={` rounded-full cursor-pointer shadow-none border-none hover:bg-secondary ${selected ? " bg-[#F4F4F5] text-black" : ""}`}>
+        <Card onClick={onClick} className={` rounded-full cursor-pointer shadow-none border-none hover:bg-[#F4F4F5] ${selected ? " bg-[#F4F4F5] text-black" : ""}`}>
             <Label className="cursor-pointer mx-4 my-3 inline-block text-center" >{data.name}</Label>
         </Card>
 
@@ -76,7 +82,7 @@ const LabFilter = ({ selected, categories }: any) => {
             </div>
 
             <div className="flex justify-between items-center my-5 w-full">
-                <FilterType />
+                
                 {showLeftArrow && <div className="h-full flex items-center content-center mr-4">
                     <ArrowLeft className=" cursor-pointer" onClick={() => handleScroll('left')} />
                 </div>}
@@ -108,7 +114,7 @@ const LabFilter = ({ selected, categories }: any) => {
                 </div>}
                 <div className="flex gap-3">
                     <Separator orientation="vertical" />
-                    <Card className={`flex items-center p-2 cursor-pointer`}>
+                    <Card className={`flex items-center p-2 cursor-pointer`} onClick={() => handleScroll('right')}>
                         <ListFilter className="cursor-pointer" />
                     </Card>
                 </div>

@@ -1,6 +1,6 @@
 "use client"
 import * as React from "react"
-import { Calendar, MoreHorizontal, LogOut, Trash, User } from "lucide-react"
+import { Calendar, UserRound, LogOut, Trash, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -12,21 +12,22 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { getCookie,deleteCookie } from 'cookies-next';
+import { deleteCookie } from 'cookies-next';
+
 export default function ProfileMenu({user}:any) {
     const {username} = user
     const [open, setOpen] = React.useState(false)
     const logoutSession = () => {
         localStorage.removeItem("_currentUser");
         deleteCookie("accessToken")
-        console.log("LOGOUT")
+        window.location.reload()
     }
     return (
         <div className="flex w-full flex-col items-start justify-between px-4 py-3 sm:flex-row sm:items-center">
             <DropdownMenu open={open} onOpenChange={setOpen}>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="secondary" size="icon" className=" rounded-full" >
-                        <MoreHorizontal />
+                    <Button variant="outline" size="icon" className=" rounded-full" >
+                        <UserRound />
                     </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-[200px]">

@@ -7,7 +7,7 @@ import UserProfile from './profile'
 export default function Header({ user }: any) {
 
     return (
-        <header className="flex z-50 w-screen h-16 items-center gap-4 border-b bg-white px-4 lg:h-[60px] lg:px-6 fixed">
+        <header className="flex z-50 w-screen h-16 items-center gap-4 border-b bg-white px-4 md:h-[68px] lg:px-6 fixed">
             <div className="container flex justify-between items-stretch">
 
                 <div className=' w-40'>

@@ -7,7 +7,56 @@ import { searchAPI } from "@/utils/api"
 import debounce from "lodash/debounce";
 import { Label } from "@/components/ui/label"
 import Image from 'next/image'
+import { AspectRatio } from "../ui/aspect-ratio"
+import Link from 'next/link'
 
+const ShowMatchingLabs = ({ searchData }: any) => {
+    return (
+        <div className="">
+            <Card
+                className={`border-t-0  rounded-lg rounded-t-none absolute w-full p-3`}
+                onMouseDown={e => e.preventDefault()}
+            >
+                <Card className=" bg-secondary rounded-md border-0 my-2 text-start px-2 py-1 "><Label>Matching Labs</Label></Card>
+                <div >
+                    {
+                        searchData.length > 0 ?
+                            <div className="max-h-[360px] overflow-y-auto grid grid-cols-3 gap-3">
+
+                                {searchData.map((item: any, index: number) =>
+                                    <Link
+                                        key={index}
+                                        className=' border rounded-md flex flex-col gap-4 cursor-pointer items-start p-3'
+                                        href={`${window.location.origin}/app/${item.uniq_name}`}
+                                        target="_blank"
+                                    >
+                                        <AspectRatio ratio={4 / 1}>
+                                            <Image
+                                                src={item.logo_url}
+                                                fill
+                                                sizes="(max-width: 768px) 100vw"
+                                                style={{ objectFit: "contain", paddingLeft: "0px", marginLeft: "0px" }}
+                                                alt="..."
+                                            >
+                                            </Image>
+                                        </AspectRatio>
+
+                                        {/* <Label className='px-3 font-semibold cursor-pointer'>{item.uniq_name}</Label> */}
+
+                                        <Label className='cursor-pointer font-bold text-pretty text-start'>{item.name}</Label>
+                                        <Label className='cursor-pointer opacity-50 text-pretty text-start'>{item.category_ids ? item.category_ids.map((item: any) => item.name).join(" , ") : ""}</Label>
+                                    </Link>)}
+
+                            </div>
+                            : <Label className='flex items-center justify-center py-6 font-bold '>No Lab Found</Label>
+                    }
+                </div>
+
+
+            </Card>
+        </div>
+    )
+}
 export default function SearchBar() {
     const [open, setOpen] = useState(false)
     const [searchData, setSearchData] = useState([])
@@ -18,6 +67,7 @@ export default function SearchBar() {
             return
         }
         const data = await searchAPI(query)
+        console.log(data)
         setSearchData(() => data)
     }
     const debouncedHandleSearch = useCallback(debounce(handleSearch, 200), []);
@@ -39,33 +89,7 @@ export default function SearchBar() {
                     />
                 </div>
                 {
-                    open && <Card
-                        className={`border-t-0 max-h-[360px] overflow-y-auto grid grid-cols-3 gap-3 rounded-lg rounded-t-none absolute w-full p-3`}
-                        onMouseDown={e => e.preventDefault()}
-                    >
-                        {
-                            searchData.length > 0 ?
-                                searchData.map((item: any, index) =>
-                                    <Card
-                                        key={index}
-                                        className=' flex flex-col gap-2 cursor-pointer max-h-32 items-start'
-                                        onClick={() => window.open(`https://livebench.tenxerlabs.com/app/${item.uniq_name}`, "_blank")}
-                                    >
-                                        <Image
-                                            src={item.logo_url}
-                                            width={500}
-                                            height={0}
-                                            alt="..."
-                                        >
-                                        </Image>
-                                        <Label className='px-3 font-semibold cursor-pointer'>{item.uniq_name}</Label>
-
-                                        <Label className='px-3 cursor-pointer'>{item.name}</Label>
-                                    </Card>)
-                                : <Label className='flex items-center'>Not Found</Label>
-                        }
-
-                    </Card>
+                    open && <ShowMatchingLabs searchData={searchData} />
                 }
             </div>
         </div>

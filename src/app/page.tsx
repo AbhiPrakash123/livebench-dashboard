@@ -35,16 +35,20 @@ export default async function Home({
   const categories = await getCategories()
 
   const accessToken = getCookie('accessToken', { cookies }) as string;
-  const useData = await getUserInfo(accessToken)
+  const useData: any = await getUserInfo(accessToken)
+  const isAdmin = (useData.roles !== undefined && useData.roles.includes("admin")) ? true : false
 
   return (
-    <main className="p-0 m-0 gap-6 flex flex-col">
+    <>
+      <main className="p-0 m-0 gap-6 flex flex-col">
       <Header user={useData} />
-      <HeroPage />
-      <LabFilter selected={category} categories={categories} />
-      <BoardListing forms={resp.data} />
-      <BoardPagination page={resp.page} total_page={resp.total_page} />
-      <Footer />
-    </main>
+        {!isAdmin ? <HeroPage /> : <div className="h-[60px]"></div>}
+        <LabFilter selected={category} categories={categories} />
+        <BoardListing forms={resp.data} user={useData} />
+        <BoardPagination page={resp.page} total_page={resp.total_page} />
+        <Footer />
+      </main>
+    </>
+
   );
 }

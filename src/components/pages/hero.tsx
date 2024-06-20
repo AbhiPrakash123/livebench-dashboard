@@ -1,10 +1,38 @@
 import { Label } from "@/components/ui/label"
 import { Rocket } from "lucide-react"
 import { Separator } from "@/components/ui/separator"
+import { getHostname } from "@/services/actions/utils"
+import { Button } from "@/components/ui/button"
+import Link from 'next/link'
+
+export function PlansAndRegister() {
+    const hostname = getHostname()
+    return (
+        <div className="flex gap-2 my-3">
+            <Link href={`${hostname}/register`}>
+                <Button
+                    className='rounded-full  px-6'
+                >
+                    <Label className=' cursor-pointer'>Create Free Account</Label>
+                </Button>
+            </Link>
+            <Link href="#">
+                <Button
+                    className='border-2 rounded-full px-6'
+                    variant="outline"
+                >
+                    <Label className=' cursor-pointer'>View all plans</Label>
+                </Button>
+            </Link>
+
+
+        </div>
+    )
+}
 
 export default function HeroPage() {
     return (
-        <div className=" h-[700px] relative mt-24 -z-10">
+        <div className=" h-[700px] relative mt-24">
             <div className="flex flex-col gap-4 items-center">
                 <div>
                     <div className=" text-primary flex items-center gap-1 my-1">
@@ -32,6 +60,7 @@ export default function HeroPage() {
                         from the world’s leading brands
                     </Label>
                 </div>
+                <PlansAndRegister />
             </div>
             <TenxerDesign />
         </div>
