@@ -53,10 +53,10 @@ export default function HeroPage() {
                     evaluation platform
                 </h1>
                 <div className="flex flex-col items-center">
-                    <Label className="scroll-m-20 text-secondary text-base text-center">
+                    <Label className="scroll-m-20 text-[#71717A] text-base text-center">
                         Save the hustle of procurement and set-up of evaluation kits with our library of 80+ labs
                     </Label>
-                    <Label className="scroll-m-20 text-secondary text-base text-center">
+                    <Label className="scroll-m-20 text-[#71717A] text-base text-center">
                         from the world’s leading brands
                     </Label>
                 </div>

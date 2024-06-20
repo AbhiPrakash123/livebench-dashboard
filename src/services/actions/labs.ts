@@ -2,6 +2,7 @@
 
 export async function getForms(page: number, category: any, subdomain: String = "all") {
     const BASE_URL = process.env.NEXT_PUBLIC_API_SERVER;
+    
     const reqData = {
         publish: true,
         page,

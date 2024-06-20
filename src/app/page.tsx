@@ -20,6 +20,9 @@ export default async function Home({
 
   const { category, page } = searchParams
   const currentPage = page ? Number(page) : 1
+  const selectedCategories = category === undefined ? [] : typeof category === "string" ? [category] : category
+  console.log("================")
+  console.log(selectedCategories)
 
   const headersList = headers();
   const host = headersList.get('host');
@@ -27,9 +30,9 @@ export default async function Home({
   const subDomains = host ? host.split(".") : []
   let resp;
   if (subDomains.length > 1) {
-    resp = await getForms(currentPage, category, subDomains[0])
+    resp = await getForms(currentPage, selectedCategories, subDomains[0])
   } else {
-    resp = await getForms(currentPage, category)
+    resp = await getForms(currentPage, selectedCategories)
 
   }
   const categories = await getCategories()
@@ -43,7 +46,7 @@ export default async function Home({
       <main className="p-0 m-0 gap-6 flex flex-col">
       <Header user={useData} />
         {!isAdmin ? <HeroPage /> : <div className="h-[60px]"></div>}
-        <LabFilter selected={category} categories={categories} />
+        <LabFilter selected={selectedCategories} categories={categories} />
         <BoardListing forms={resp.data} user={useData} />
         <BoardPagination page={resp.page} total_page={resp.total_page} />
         <Footer />

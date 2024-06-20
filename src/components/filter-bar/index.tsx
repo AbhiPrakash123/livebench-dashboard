@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { Separator } from "@/components/ui/separator"
 import { ListFilter, SearchCheck } from "lucide-react"
 import { useRef, useState } from "react"
-import { ArrowRight, ArrowLeft } from "lucide-react"
+import { ArrowRight, ArrowLeft, Info } from "lucide-react"
 import FilterType from "./type"
 
 const CategoryBadge = ({ data, selected, onClick }: any) => {
@@ -20,6 +20,9 @@ const LabFilter = ({ selected, categories }: any) => {
     const scrollContainerRef: any = useRef(null);
     const [showRightArrow, setShowRightArrow] = useState(true)
     const [showLeftArrow, setShowLeftArrow] = useState(false)
+    const all = { name: 'All' }
+
+    if(selected.length === 0) selected.push(all.name)
 
     const handleScroll = (direction: string) => {
 
@@ -47,7 +50,7 @@ const LabFilter = ({ selected, categories }: any) => {
 
     const changeCategory = (newCategory: any) => {
         const params = new URLSearchParams(searchParams.toString())
-        params.set('category', newCategory)
+        params.append('category', newCategory)
         window.history.pushState(null, '', `?${params.toString()}`)
         window.location.reload()
     }
@@ -59,9 +62,9 @@ const LabFilter = ({ selected, categories }: any) => {
         window.location.reload()
     }
 
-    var selectedItem = categories.filter((item: any) => item.name === selected)[0]
-    const all = { name: 'All' }
-    if (!selectedItem?.name) selectedItem = all
+    // var selectedItem = categories.filter((item: any) => item.name === selected)[0]
+    
+    // if (!selectedItem?.name) selectedItem = all
 
     return (
         <div className="container">
@@ -71,7 +74,7 @@ const LabFilter = ({ selected, categories }: any) => {
                     <Label >Explore labs</Label>
                 </div>
                 <Label className="scroll-m-20 mb-10 text-3xl font-semibold tracking-tight lg:text-5xl text-center">
-                Discover the Ideal IC for Your Design with Ease
+                    Discover the Ideal IC for Your Design with Ease
                 </Label>
             </div>
 
@@ -88,7 +91,7 @@ const LabFilter = ({ selected, categories }: any) => {
                         <CategoryBadge
                             key={124325}
                             data={all}
-                            selected={selectedItem.name === all.name ? true : false}
+                            selected={selected.includes(all.name) ? true : false}
                             onClick={() => allCategory()}
                         />
                         {
@@ -96,8 +99,8 @@ const LabFilter = ({ selected, categories }: any) => {
                                 <CategoryBadge
                                     key={index}
                                     data={item}
-                                    selected={selectedItem.name === item.name ? true : false}
-                                    onClick={() => changeCategory(item.name)}
+                                    selected={selected.includes(item.name) ? true : false}
+                                    onClick={selected.includes(item.name) ? null : () => changeCategory(item.name)}
                                 />
                             )
                         }
@@ -112,8 +115,10 @@ const LabFilter = ({ selected, categories }: any) => {
                         <ListFilter className="cursor-pointer" />
                     </Card>
                 </div>
-
             </div>
+            <Card className="flex  gap-2 bg-secondary rounded-md border-0 px-2 py-1 ">
+                <Label className="flex items-center gap-2"><Info />Add filters for each category level to find the best lab of your need</Label>
+            </Card>
 
         </div>
 
