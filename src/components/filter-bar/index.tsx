@@ -54,6 +54,14 @@ const LabFilter = ({ selected, categories }: any) => {
         window.history.pushState(null, '', `?${params.toString()}`)
         window.location.reload()
     }
+    const deleteCategory = (delCategory: any) => {
+        const params = new URLSearchParams(searchParams.toString())
+        const categories = params.getAll('category').filter(item => item !== delCategory);
+        params.delete('category')
+        categories.forEach(cat => params.append('category', cat))
+        window.history.pushState(null, '', `?${params.toString()}`)
+        window.location.reload()
+    }
 
     const allCategory = () => {
         const params = new URLSearchParams(searchParams.toString())
@@ -100,7 +108,7 @@ const LabFilter = ({ selected, categories }: any) => {
                                     key={index}
                                     data={item}
                                     selected={selected.includes(item.name) ? true : false}
-                                    onClick={selected.includes(item.name) ? null : () => changeCategory(item.name)}
+                                    onClick={selected.includes(item.name) ? () => deleteCategory(item.name) : () => changeCategory(item.name)}
                                 />
                             )
                         }
